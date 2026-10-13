@@ -67,6 +67,13 @@ footer{background:#fff;color:#171a1c;border-top:1px solid #171a1c15}footer p,foo
 .gateway{position:relative;min-height:560px;padding:90px 6%;}.gateway-heading .eyebrow{font-size:clamp(40px,6vw,82px);letter-spacing:.13em;margin:0 0 30px;font-weight:700}.gateway-heading .eyebrow span{font-size:clamp(12px,1.4vw,19px);letter-spacing:.23em;line-height:1.5;margin-top:18px}.gateway h1{font-size:clamp(18px,2vw,26px);font-weight:400;letter-spacing:0;text-transform:none;color:#eee}.gateway h1 em{color:#eee}.hero-motion-toggle{position:absolute;bottom:20px;right:25px;margin:0;font-size:10px;padding:5px 10px;opacity:.65}.gateway-heading{animation:none}.gateway-backdrop:after{background:#080c0e99}@media(max-width:700px){.gateway{min-height:460px;padding:65px 6%}.gateway-heading .eyebrow{font-size:clamp(30px,8vw,48px);letter-spacing:.07em}.gateway-heading .eyebrow span{font-size:11px;letter-spacing:.13em}.gateway h1{font-size:18px}}
 
 .gateway-heading .eyebrow{color:#ffcb05}
+
+/* Unified appearance and interaction for all three reasons. */
+.process .process-grid article:nth-child(n){background:#fff;color:#192124;border:1px solid #b89c6538;border-top:4px solid #c59b50;box-shadow:0 15px 40px #222c3010;transition:background-color .35s,color .35s,transform .35s,box-shadow .35s,border-color .35s;--delay:0ms!important}
+.process .process-grid article:nth-child(n)>span{color:#8c672c}.process .process-grid article:nth-child(n) .reason-number{color:#c5a66e}.process .process-grid article:nth-child(n) p{color:#5a6265}
+.process .process-grid article:nth-child(n):hover,.process .process-grid article:nth-child(n):focus-within{background:#273337;color:#fff;border-color:#d5b372;transform:translateY(-6px);box-shadow:0 22px 44px #17212430}
+.process .process-grid article:nth-child(n):hover p,.process .process-grid article:nth-child(n):focus-within p{color:#e1e7e8}.process .process-grid article:nth-child(n):hover>span,.process .process-grid article:nth-child(n):focus-within>span,.process .process-grid article:nth-child(n):hover .reason-number,.process .process-grid article:nth-child(n):focus-within .reason-number{color:#f2cf8d}
+@media(prefers-reduced-motion:reduce){.process .process-grid article:nth-child(n){transition:none}.process .process-grid article:nth-child(n):hover,.process .process-grid article:nth-child(n):focus-within{transform:none}}
 </style></head>
 <body>
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
