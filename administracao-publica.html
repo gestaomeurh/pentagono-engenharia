@@ -195,12 +195,14 @@ if(heroVideo&&heroMotion){
 const municipalPause=document.querySelector('.municipal-pause');if(municipalPause)municipalPause.addEventListener('click',()=>{const paused=municipalPause.closest('.municipalities').classList.toggle('is-paused');municipalPause.setAttribute('aria-pressed',String(paused));municipalPause.textContent=paused?'Retomar movimento':'Pausar movimento'});
 
 // Native scrolling supports touch, keyboard and the scrollbar; mouse dragging is additive.
-(()=>{const strip=document.querySelector('.municipal-window');if(!strip)return;const section=strip.closest('.municipalities');let drag=null,hover=false,focused=false,last=0,direction=1,resumeAt=0;
-strip.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hover=true});strip.addEventListener('pointerleave',()=>{hover=false});
-strip.addEventListener('focusin',()=>focused=true);strip.addEventListener('focusout',()=>focused=false);
-strip.addEventListener('pointerdown',e=>{resumeAt=performance.now()+4000;if(e.pointerType!=='mouse'||e.button!==0||e.offsetY>=strip.clientHeight)return;drag={x:e.clientX,left:strip.scrollLeft};strip.setPointerCapture(e.pointerId);strip.classList.add('is-dragging')});
+(()=>{const strip=document.querySelector('.municipal-window');if(!strip)return;const section=strip.closest('.municipalities');let drag=null,touching=false,last=0,resumeAt=0,fraction=0;
+const group=strip.querySelector('.municipal-group');const track=strip.querySelector('.municipal-track');if(!motion.matches){for(let i=0;i<2;i++){const copy=group.cloneNode(true);copy.setAttribute('aria-hidden','true');track.append(copy)}strip.scrollLeft=group.offsetWidth;}
+strip.addEventListener('scroll',()=>{if(motion.matches)return;const width=group.offsetWidth;if(!width)return;let shift=0;if(strip.scrollLeft>=width*2)shift=-width;else if(strip.scrollLeft<width*.25)shift=width;if(shift){strip.scrollLeft+=shift;if(drag)drag.left+=shift}},{passive:true});
+
+
+strip.addEventListener('pointerdown',e=>{touching=true;resumeAt=performance.now();if(e.pointerType!=='mouse'||e.button!==0||e.offsetY>=strip.clientHeight)return;drag={x:e.clientX,left:strip.scrollLeft};strip.setPointerCapture(e.pointerId);strip.classList.add('is-dragging')});
 strip.addEventListener('pointermove',e=>{if(!drag)return;strip.scrollLeft=drag.left+drag.x-e.clientX});
-const end=()=>{drag=null;strip.classList.remove('is-dragging');resumeAt=performance.now()+4000};strip.addEventListener('pointerup',end);strip.addEventListener('pointercancel',end);strip.addEventListener('lostpointercapture',end);strip.addEventListener('wheel',()=>resumeAt=performance.now()+4000,{passive:true});
-function tick(now){const dt=Math.min(now-last,50);last=now;if(!document.hidden&&!motion.matches&&!drag&&!hover&&!(focused&&strip.matches(':focus-visible'))&&!section.classList.contains('is-paused')&&now>resumeAt){const max=strip.scrollWidth-strip.clientWidth;if(max>0){const next=strip.scrollLeft+direction*dt*.028;strip.scrollLeft=next;if(next>=max){direction=-1;resumeAt=now+1200}else if(next<=0){direction=1;resumeAt=now+1200}}}requestAnimationFrame(tick)}requestAnimationFrame(tick);
+const end=()=>{drag=null;touching=false;strip.classList.remove('is-dragging');resumeAt=performance.now()+350};strip.addEventListener('pointerup',end);strip.addEventListener('pointercancel',end);strip.addEventListener('lostpointercapture',end);strip.addEventListener('wheel',()=>resumeAt=performance.now()+350,{passive:true});
+function tick(now){const dt=Math.min(now-last,50);last=now;if(!document.hidden&&!motion.matches&&!drag&&!touching&&!section.classList.contains('is-paused')&&now>resumeAt){fraction+=dt*.035;const step=Math.floor(fraction);if(step){strip.scrollLeft+=step;fraction-=step;}}requestAnimationFrame(tick)}requestAnimationFrame(tick);
 })();
 </script></body></html>
